@@ -1,0 +1,38 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner entrada = null;
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.showOpenDialog(fileChooser);
+        
+        File selectedFile = fileChooser.getSelectedFile();
+
+        if (!selectedFile.getName().endsWith(".asm")) {
+            JOptionPane.showMessageDialog(null, "Solo se aceptan archivos con terminación .asm");
+            System.exit(1);
+        }
+
+        try {
+            entrada = new Scanner(selectedFile);
+
+            while (entrada.hasNext()) {
+                System.out.println(entrada.nextLine()); //* Aqui leemos linea por linea
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (NullPointerException e) {
+            JOptionPane.showInputDialog("No se ha seleccionado ningún fichero");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (entrada != null) {
+                entrada.close();
+            }
+        }
+    }
+}
